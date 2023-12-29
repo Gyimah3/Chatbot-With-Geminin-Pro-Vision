@@ -4,10 +4,9 @@ import streamlit as st
 from PIL import Image
 import google.generativeai as genai
 
-# Load environment variables and configure Google API
-load_dotenv()
-st.secrets("GOOGLE_API_KEY")
-genai.configure(api_key=st.secrets("GOOGLE_API_KEY"))
+google_api_key = st.secrets["GOOGLE_API_KEY"]
+genai.configure(api_key=google_api_key)
+
 # GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 # genai.configure(api_key=GOOGLE_API_KEY)
 
