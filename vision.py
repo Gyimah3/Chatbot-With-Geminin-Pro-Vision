@@ -53,11 +53,12 @@ if 'chat_history' not in st.session_state:
 
 # Chat UI
 st.write("## Chat")
-# Chat display area
 chat_container = st.container()
 for author, message in st.session_state.chat_history:
-    color = 'blue' if author == "You" else 'green'
-    chat_container.markdown(f"<span style='color: {color};'>{author}: {message}</span>", unsafe_allow_html=True)
+    if author == "You":
+        chat_container.markdown(f"<span style='color: blue;'>{author}:</span> {message}", unsafe_allow_html=True)
+    else:  # "Chatbot"
+        chat_container.markdown(f"<span style='color: green;'>{author}:</span> {message}", unsafe_allow_html=True)
 
 # Chat input form
 with st.form("chat_form", clear_on_submit=True):  # The form will clear the input on submit
