@@ -4,6 +4,7 @@ import streamlit as st
 from PIL import Image
 import google.generativeai as genai
 
+# Load API key from environment variables
 google_api_key = st.secrets["GOOGLE_API_KEY"]
 genai.configure(api_key=google_api_key)
 
@@ -11,7 +12,7 @@ genai.configure(api_key=google_api_key)
 # genai.configure(api_key=GOOGLE_API_KEY)
 
 
-# Function to load OpenAI model and get responses
+# Function to load gemini model and get responses
 def get_gemini_response(input, image):
     model = genai.GenerativeModel('gemini-pro-vision')
     response = model.generate_content([input, image])
@@ -47,7 +48,7 @@ if uploaded_file is not None:
     st.session_state.uploaded_image = Image.open(uploaded_file)
     st.image(st.session_state.uploaded_image, caption="Uploaded Image.", use_column_width=True)
 
-# Initialize or get the chat history
+# Initializing or getting the chat history
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 
