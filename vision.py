@@ -12,20 +12,31 @@ genai.configure(api_key=google_api_key)
 # genai.configure(api_key=GOOGLE_API_KEY)
 
 
-# Function to load gemini model and get responses
+# Function to load gemini model and get responses with prompt engineering for academic solutions
 def get_gemini_response(input, image):
+    # Define the prompt with instructions for academic problem-solving
+    prompt = """
+    You are an AI that assists with solving academic problems. You can analyze images of academic content, 
+    such as questions, diagrams, graphs, or equations. Use the provided image to identify the academic problem 
+    and generate a detailed explanation or step-by-step solution for it. If the image contains a question from 
+    a test or homework assignment, provide clear, educational guidance that will help a student understand 
+    how to reach the solution on their own.
+    
+    Image description: [The AI should automatically generate a description here based on the input image]
+    
+    Task: [The AI should interpret the academic content in the image and provide a solution or explanation here]
+    """
+    
+    # Call the API with the combined input and prompt
     model = genai.GenerativeModel('gemini-pro-vision')
-    response = model.generate_content([input, image])
-    # Check if the response has parts and handle it accordingly
+    response = model.generate_content([prompt, image])
+    
+    # Handle the response correctly based on its structure
     if hasattr(response, 'parts'):
-        # Assuming each part has a 'text' attribute
         return " ".join(part.text for part in response.parts)
     elif hasattr(response, 'candidates'):
-        # If the response has candidates, return the content of the first candidate
-        # Assuming candidates is a list and each candidate has a 'content' attribute
         return response.candidates[0].content.text
     else:
-        # Fallback if the response does not have parts or candidates
         return "Response format not recognized"
 
 
