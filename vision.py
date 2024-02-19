@@ -16,7 +16,16 @@ genai.configure(api_key=google_api_key)
 def get_gemini_response(input, image):
     model = genai.GenerativeModel('gemini-pro-vision')
     response = model.generate_content([input, image])
-    return response.text
+    # Check if the response has parts and handle it accordingly
+    if hasattr(response, 'parts'):
+        return " ".join(part['text'] for part in response.parts)
+    elif hasattr(response, 'candidates'):
+        # If the response has candidates, return the content of the first candidate
+        # Modify this part if you need to handle multiple candidates
+        return response.candidates[0].content.text
+    else:
+        # Fallback if the response does not have parts or candidates
+        return "Response format not recognized"
 
 # Function to handle sending messages
 def send_message(message):
