@@ -28,7 +28,7 @@ def get_gemini_response(input, image):
     """
     
     # Call the API with the combined input and prompt
-    model = genai.GenerativeModel('gemini-pro-vision')
+    model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content([prompt, image])
     
     # Handle the response correctly based on its structure
